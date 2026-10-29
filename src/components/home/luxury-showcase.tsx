@@ -1,88 +1,88 @@
-"use client";
-
 import { ArrowRight } from "lucide-react";
 
+import type { Result } from "@/lib/errors";
+import type { Brand } from "@/lib/validations/brand";
+
+import { BrandTile } from "@/components/brands/brand-tile";
+import { LinkButton } from "@/components/common/link-button";
+import { SectionHeader } from "@/components/common/section-header";
+import { ApiErrorMessage } from "@/components/errors";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 
-export function LuxuryShowcase() {
+const HEADER = {
+  title: "Featured",
+  description: "Handpicked by our curators.",
+};
+
+interface LuxuryShowcaseProps {
+  brandsResult: Result<Brand[]>;
+}
+
+export function LuxuryShowcase({ brandsResult }: LuxuryShowcaseProps) {
+  if (brandsResult.error) {
+    return (
+      <section className="container mx-auto px-4 py-12 sm:px-6 sm:py-20">
+        <SectionHeader {...HEADER} />
+
+        <ApiErrorMessage error={brandsResult.error} />
+      </section>
+    );
+  }
+
+  const [spotlight, ...others] = brandsResult.data.filter(
+    (brand) => brand.isFeatured,
+  );
+
+  if (!spotlight) {
+    return null;
+  }
+
   return (
-    <section className="container mx-auto px-6 py-20">
-      <div className="mb-12">
-        <h2 className="font-serif text-4xl text-foreground">Featured</h2>
-
-        <p className="mt-2 text-muted-foreground">Limited collections.</p>
-      </div>
+    <section className="container mx-auto px-4 py-12 sm:px-6 sm:py-20">
+      <SectionHeader {...HEADER} />
 
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Large Card */}
 
-        <Card className="group overflow-hidden rounded-3xl border-border bg-card/70 lg:col-span-2">
-          <CardContent className="flex h-[420px] flex-col justify-between p-10">
+        <Card className="overflow-hidden rounded-3xl border-border bg-card/70 lg:col-span-2">
+          <CardContent className="flex min-h-80 flex-col justify-between gap-10 p-6 sm:p-10 lg:min-h-105">
             <div>
               <span className="rounded-full border border-brand-gold/30 bg-brand-gold/10 px-3 py-1 text-xs uppercase tracking-[0.25em] text-brand-gold">
-                Limited
+                Featured
               </span>
             </div>
 
             <div className="space-y-5">
-              <h3 className="font-serif text-5xl leading-tight text-foreground">
-                Beyond
-                <br />
-                Luxury.
+              <h3 className="font-serif text-3xl leading-tight wrap-break-word text-foreground sm:text-4xl md:text-5xl">
+                {spotlight.name}
               </h3>
 
-              <Button className="rounded-xl bg-brand-gold text-black hover:opacity-90">
+              {spotlight.description && (
+                <p className="line-clamp-3 max-w-xl text-muted-foreground">
+                  {spotlight.description}
+                </p>
+              )}
+
+              <LinkButton
+                href={`/brands/${spotlight.slug}`}
+                className="rounded-xl bg-brand-gold text-black hover:opacity-90"
+              >
                 Discover
                 <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+              </LinkButton>
             </div>
           </CardContent>
         </Card>
 
         {/* Right Side */}
 
-        <div className="space-y-6">
-          <Card className="group rounded-3xl border-border bg-card/70">
-            <CardContent className="flex h-[197px] flex-col justify-between p-8">
-              <span className="text-xs uppercase tracking-[0.25em] text-brand-gold">
-                Timepieces
-              </span>
-
-              <div>
-                <h3 className="font-serif text-3xl">Rolex</h3>
-
-                <Button
-                  variant="ghost"
-                  className="mt-3 p-0 text-brand-gold hover:bg-transparent"
-                >
-                  Explore
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="group rounded-3xl border-border bg-card/70">
-            <CardContent className="flex h-[197px] flex-col justify-between p-8">
-              <span className="text-xs uppercase tracking-[0.25em] text-brand-gold">
-                Performance
-              </span>
-
-              <div>
-                <h3 className="font-serif text-3xl">Ferrari</h3>
-
-                <Button
-                  variant="ghost"
-                  className="mt-3 p-0 text-brand-gold hover:bg-transparent"
-                >
-                  Explore
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+        {others.length > 0 && (
+          <div className="grid gap-6">
+            {others.slice(0, 2).map((brand) => (
+              <BrandTile key={brand.id} brand={brand} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

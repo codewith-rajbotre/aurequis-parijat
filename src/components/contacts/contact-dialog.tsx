@@ -73,7 +73,7 @@ export default function ContactDialog({
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="max-h-[90vh] overflow-y-auto border-border bg-background sm:max-w-lg">
+      <DialogContent className="border-border bg-background sm:max-w-lg">
         <DialogHeader className="space-y-3">
           <div className="flex h-11 w-11 items-center justify-center rounded-full border border-brand-gold/40">
             <MessageCircle className="h-5 w-5 text-brand-gold" />

@@ -156,7 +156,7 @@ export interface BrandSection {
     updated_at: string;
 }
 
-export interface Brand {
+export interface BrandDetails {
     id: string;
 
     name: string;

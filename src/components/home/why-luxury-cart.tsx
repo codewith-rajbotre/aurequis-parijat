@@ -1,7 +1,6 @@
-"use client";
-
 import { Globe2, LockKeyhole, ShieldCheck, Sparkles } from "lucide-react";
 
+import { SectionHeader } from "@/components/common/section-header";
 import { Card, CardContent } from "@/components/ui/card";
 
 const features = [
@@ -29,12 +28,12 @@ const features = [
 
 export function WhyLuxuryCart() {
   return (
-    <section className="container mx-auto px-6 py-20">
-      <div className="mb-12 text-center">
-        <h2 className="font-serif text-4xl text-foreground">Experience</h2>
-
-        <p className="mt-2 text-muted-foreground">Designed for luxury.</p>
-      </div>
+    <section className="container mx-auto px-4 py-12 sm:px-6 sm:py-20">
+      <SectionHeader
+        title="Experience"
+        description="Designed for luxury."
+        align="center"
+      />
 
       <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
         {features.map(({ title, description, icon: Icon }) => (

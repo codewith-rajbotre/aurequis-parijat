@@ -1,14 +1,37 @@
 import "server-only";
 import {
+    type Brand,
     BrandSchema,
-    BrandsSchema,
-    CreateBrand,
+    type CreateBrand,
 } from "@/lib/validations/brand";
-import { supabase } from "@/lib/supabase";
+import { type Result, toAppError } from "@/lib/errors";
+import type { BrandDetails } from "@/lib/types/brand";
+import { getSupabase } from "@/lib/supabase";
 
-export async function fetchAllBrands() {
+// The `brands` table uses snake_case columns; BrandSchema uses camelCase.
+function toBrandInput(row: Record<string, unknown>) {
+    return {
+        id: row.id,
+        name: row.name,
+        slug: row.slug,
+        description: row.description,
+        logoUrl: row.logo_url,
+        bannerUrl: row.banner_url,
+        websiteUrl: row.website_url,
+        country: row.country,
+        foundedYear: row.founded_year,
+        status: row.status,
+        isFeatured: row.is_featured,
+        displayOrder: row.display_order,
+        createdBy: row.created_by,
+        createdAt: row.created_at,
+        updatedAt: row.updated_at,
+    };
+}
+
+export async function fetchAllBrands(): Promise<Result<Brand[]>> {
     try {
-        const { data, error } = await supabase
+        const { data, error, status } = await getSupabase()
             .from("brands")
             .select("*")
             .order("display_order", {
@@ -19,24 +42,68 @@ export async function fetchAllBrands() {
             });
 
         if (error) {
-            throw error;
-        }
-        const parsedData = BrandsSchema.parse(data ?? []);
-        if (!parsedData) {
             console.error("Failed to fetch brands:", error);
+            return { data: null, error: toAppError(error, status, "Failed to fetch brands.") };
         }
-        return parsedData;
+
+        const brands = (data ?? []).flatMap((row) => {
+            const parsed = BrandSchema.safeParse(toBrandInput(row));
+
+            if (!parsed.success) {
+                console.error(`Skipping invalid brand "${row.slug}":`, parsed.error.issues);
+                return [];
+            }
+
+            return [parsed.data];
+        });
+
+        return { data: brands, error: null };
     } catch (error) {
         console.error("Failed to fetch brands:", error);
-        return [];
-
+        return { data: null, error: toAppError(error, undefined, "Failed to fetch brands.") };
     }
 }
+
+// `data: null` with no error means the brand does not exist.
+export async function fetchBrandBySlug(
+    slug: string,
+): Promise<Result<BrandDetails | null>> {
+    try {
+        const { data, error, status } = await getSupabase()
+            .from("brands")
+            .select(
+                `
+      *,
+      brand_themes(*),
+      brand_content(*),
+      brand_statistics(*),
+      brand_heritage(*),
+      brand_collections(*),
+      brand_features(*),
+      brand_gallery(*),
+      brand_sections(*)
+    `,
+            )
+            .eq("slug", slug)
+            .maybeSingle();
+
+        if (error) {
+            console.error("Failed to fetch brand:", error);
+            return { data: null, error: toAppError(error, status, "Failed to fetch brand details.") };
+        }
+
+        return { data, error: null };
+    } catch (error) {
+        console.error("Failed to fetch brand:", error);
+        return { data: null, error: toAppError(error, undefined, "Failed to fetch brand details.") };
+    }
+}
+
 export async function createBrand(
   brand: CreateBrand
 ) {
   try {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from("brands")
       .insert({
         name: brand.name,
@@ -63,29 +130,7 @@ export async function createBrand(
     if (error) {
       throw error;
     }
-    return BrandSchema.parse({
-      id: data.id,
-      name: data.name,
-      slug: data.slug,
-      description: data.description,
-
-      logoUrl: data.logo_url,
-      bannerUrl: data.banner_url,
-      websiteUrl: data.website_url,
-
-      country: data.country,
-      foundedYear: data.founded_year,
-
-      status: data.status,
-
-      isFeatured: data.is_featured,
-      displayOrder: data.display_order,
-
-      createdBy: data.created_by,
-
-      createdAt: data.created_at,
-      updatedAt: data.updated_at,
-    });
+    return BrandSchema.parse(toBrandInput(data));
   } catch (error) {
     console.error("Failed to create brand:", error);
     throw new Error("Unable to create brand.");

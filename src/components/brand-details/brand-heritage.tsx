@@ -11,7 +11,7 @@ export default function BrandHeritage({ theme, heritage }: BrandHeritageProps) {
   return (
     <section
       id="heritage"
-      className="py-32"
+      className="py-20 md:py-32"
       style={{
         backgroundColor: theme.background_color,
       }}
@@ -27,7 +27,7 @@ export default function BrandHeritage({ theme, heritage }: BrandHeritageProps) {
         </p>
 
         <h2
-          className="mt-5 text-5xl font-light"
+          className="mt-5 text-4xl font-light md:text-5xl"
           style={{
             color: theme.text_primary,
           }}

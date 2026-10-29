@@ -1,13 +1,28 @@
-"use client";
+import type { Result } from "@/lib/errors";
+import { BrandStatus } from "@/lib/types/brand";
+import type { Brand } from "@/lib/validations/brand";
 
 import { FooterCTA } from "./footer-cta";
 import { FeaturedBrands } from "./featured-brands";
-import { FeaturedCategories } from "./featured-categories";
 import { HomeHero } from "./home-hero";
 import { LuxuryShowcase } from "./luxury-showcase";
 import { WhyLuxuryCart } from "./why-luxury-cart";
 
-export function HomePage() {
+interface HomePageProps {
+  brandsResult: Result<Brand[]>;
+}
+
+export function HomePage({ brandsResult }: HomePageProps) {
+  // Sections receive the error too, so each shows it in place while the rest of the page renders.
+  const publishedBrands: Result<Brand[]> = brandsResult.error
+    ? brandsResult
+    : {
+        data: brandsResult.data.filter(
+          (brand) => brand.status === BrandStatus.PUBLISHED,
+        ),
+        error: null,
+      };
+
   return (
     <main className="relative min-h-screen overflow-hidden bg-background">
       {/* Background Glow */}
@@ -19,13 +34,11 @@ export function HomePage() {
 
       {/* Content */}
       <div className="relative z-10">
-        <HomeHero />
+        <HomeHero brandsResult={publishedBrands} />
 
-        <FeaturedCategories />
+        <FeaturedBrands brandsResult={publishedBrands} />
 
-        <FeaturedBrands />
-
-        <LuxuryShowcase />
+        <LuxuryShowcase brandsResult={publishedBrands} />
 
         <WhyLuxuryCart />
 

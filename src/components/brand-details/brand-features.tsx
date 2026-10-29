@@ -10,13 +10,13 @@ export default function BrandFeatures({ theme, features }: BrandFeaturesProps) {
 
   return (
     <section
-      className="py-32"
+      className="py-20 md:py-32"
       style={{
         backgroundColor: theme.surface_color,
       }}
     >
       <div className="mx-auto max-w-7xl px-6">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-8 sm:grid-cols-2 md:gap-10 lg:grid-cols-3">
           {features.map((feature) => (
             <div
               key={feature.id}

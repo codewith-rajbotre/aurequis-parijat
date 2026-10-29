@@ -1,13 +1,35 @@
-"use client";
-
 import { ArrowRight } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
+import type { Result } from "@/lib/errors";
+import type { Brand } from "@/lib/validations/brand";
+
+import { LinkButton } from "@/components/common/link-button";
+import { StatCard } from "@/components/common/stat-card";
 import { Card, CardContent } from "@/components/ui/card";
 
-export function HomeHero() {
+interface HomeHeroProps {
+  brandsResult: Result<Brand[]>;
+}
+
+export function HomeHero({ brandsResult }: HomeHeroProps) {
+  const { data: brands, error } = brandsResult;
+
+  const stats = [
+    { label: "Brands", value: brands?.length ?? null },
+    {
+      label: "Featured",
+      value: brands?.filter((brand) => brand.isFeatured).length ?? null,
+    },
+    {
+      label: "Countries",
+      value: brands
+        ? new Set(brands.map((brand) => brand.country).filter(Boolean)).size
+        : null,
+    },
+  ];
+
   return (
-    <section className="container mx-auto px-6 pt-20 pb-24 lg:pt-28 lg:pb-32">
+    <section className="container mx-auto px-4 pt-12 pb-16 sm:px-6 sm:pt-20 sm:pb-24 lg:pt-28 lg:pb-32">
       <div className="grid items-center gap-12 lg:grid-cols-2">
         {/* Left */}
 
@@ -19,7 +41,7 @@ export function HomeHero() {
           </div>
 
           <div className="space-y-4">
-            <h1 className="font-serif text-5xl leading-tight tracking-tight md:text-6xl xl:text-7xl">
+            <h1 className="font-serif text-4xl leading-tight tracking-tight sm:text-5xl md:text-6xl xl:text-7xl">
               Luxury.
               <br />
               <span className="text-brand-gold">Curated.</span>
@@ -31,54 +53,36 @@ export function HomeHero() {
           </div>
 
           <div className="flex flex-wrap gap-4">
-            <Button
+            <LinkButton
+              href="/brands"
               size="lg"
               className="rounded-xl bg-brand-gold px-7 text-black hover:opacity-90"
             >
-              Explore
+              Explore Brands
               <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+            </LinkButton>
 
-            <Button
+            <LinkButton
+              href="/about"
               size="lg"
               variant="outline"
               className="rounded-xl border-brand-gold/30 bg-transparent text-brand-gold hover:bg-brand-gold/10"
             >
-              Brands
-            </Button>
+              About Us
+            </LinkButton>
           </div>
         </div>
 
         {/* Right */}
 
-        <div className="grid grid-cols-2 gap-5">
-          <Card className="rounded-3xl border-border bg-card/70 transition-all duration-300 hover:-translate-y-1 hover:border-brand-gold/40">
-            <CardContent className="space-y-2 p-6">
-              <p className="text-3xl font-bold text-brand-gold">150+</p>
-
-              <p className="text-sm text-muted-foreground">Brands</p>
-            </CardContent>
-          </Card>
-
-          <Card className="rounded-3xl border-border bg-card/70 transition-all duration-300 hover:-translate-y-1 hover:border-brand-gold/40">
-            <CardContent className="space-y-2 p-6">
-              <p className="text-3xl font-bold text-brand-gold">12K+</p>
-
-              <p className="text-sm text-muted-foreground">Products</p>
-            </CardContent>
-          </Card>
-
-          <Card className="rounded-3xl border-border bg-card/70 transition-all duration-300 hover:-translate-y-1 hover:border-brand-gold/40">
-            <CardContent className="space-y-2 p-6">
-              <p className="text-3xl font-bold text-brand-gold">60+</p>
-
-              <p className="text-sm text-muted-foreground">Countries</p>
-            </CardContent>
-          </Card>
+        <div className="grid grid-cols-2 gap-3 sm:gap-5">
+          {stats.map(({ label, value }) => (
+            <StatCard key={label} label={label} value={value} error={error} />
+          ))}
 
           <Card className="rounded-3xl border-border bg-brand-gold text-black transition-all duration-300 hover:-translate-y-1">
-            <CardContent className="flex h-full items-center justify-center p-6">
-              <span className="text-lg font-semibold">100% Authentic</span>
+            <CardContent className="flex h-full items-center justify-center p-4 text-center sm:p-6">
+              <span className="text-base font-semibold sm:text-lg">100% Authentic</span>
             </CardContent>
           </Card>
         </div>

@@ -8,7 +8,7 @@ export default function BrandStory({ brand, theme, content }: BrandStoryProps) {
   return (
     <section
       id="story"
-      className="py-32"
+      className="py-20 md:py-32"
       style={{
         backgroundColor: theme.surface_color,
       }}
@@ -23,9 +23,9 @@ export default function BrandStory({ brand, theme, content }: BrandStoryProps) {
           {content?.story_eyebrow ?? "Our Story"}
         </p>
 
-        <div className="mt-8 grid gap-16 lg:grid-cols-2">
+        <div className="mt-8 grid gap-10 lg:grid-cols-2 lg:gap-16">
           <h2
-            className="text-5xl font-light leading-tight"
+            className="text-4xl font-light leading-tight md:text-5xl"
             style={{
               color: theme.text_primary,
             }}

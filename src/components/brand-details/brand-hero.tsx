@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -21,7 +20,7 @@ export default function BrandHero({
         backgroundColor: theme.background_color,
       }}
     >
-      <div className="mx-auto grid min-h-[calc(100vh-5rem)] max-w-7xl items-center gap-16 px-6 py-24 lg:grid-cols-2">
+      <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-16 sm:px-6 md:gap-16 md:py-24 lg:min-h-[calc(100dvh-10rem)] lg:grid-cols-2">
         <div>
           <p
             className="mb-6 text-xs uppercase tracking-[0.45em]"
@@ -33,7 +32,7 @@ export default function BrandHero({
           </p>
 
           <h1
-            className="text-5xl font-light leading-tight tracking-tight md:text-7xl"
+            className="text-4xl font-light leading-tight tracking-tight wrap-break-word sm:text-5xl md:text-7xl"
             style={{
               color: theme.text_primary,
             }}

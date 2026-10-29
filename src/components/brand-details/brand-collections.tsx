@@ -1,4 +1,3 @@
-import Image from "next/image";
 
 interface BrandCollectionsProps {
   theme: any;
@@ -16,7 +15,7 @@ export default function BrandCollections({
   return (
     <section
       id="collections"
-      className="py-32"
+      className="py-20 md:py-32"
       style={{
         backgroundColor: theme.background_color,
       }}
@@ -32,7 +31,7 @@ export default function BrandCollections({
         </p>
 
         <h2
-          className="mt-5 text-5xl font-light"
+          className="mt-5 text-4xl font-light md:text-5xl"
           style={{
             color: theme.text_primary,
           }}
@@ -40,7 +39,7 @@ export default function BrandCollections({
           Discover the Collection
         </h2>
 
-        {/* <div className="mt-20 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+        {/* <div className="mt-12 grid gap-8 sm:grid-cols-2 md:mt-20 lg:grid-cols-4">
           {collections.map((collection) => (
             <article key={collection.id}>
               <div

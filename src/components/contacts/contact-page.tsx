@@ -11,11 +11,11 @@ export default function ContactPage() {
   const [contactOpen, setContactOpen] = useState(false);
 
   return (
-    <main className="relative flex min-h-[calc(100vh-8rem)] items-center justify-center overflow-hidden bg-background px-6 py-16">
+    <main className="relative flex min-h-[calc(100dvh-8rem)] items-center justify-center overflow-hidden bg-background px-4 pb-16 pt-20 sm:px-6 sm:py-16">
       {/* Contact Us button in the top-right corner */}
       <Button
         onClick={() => setContactOpen(true)}
-        className="absolute right-6 top-6 bg-brand-gold text-black hover:opacity-90"
+        className="absolute right-4 top-4 bg-brand-gold text-black hover:opacity-90 sm:right-6 sm:top-6"
       >
         Contact Us
         <ArrowUpRight className="ml-2 h-4 w-4" />
@@ -30,7 +30,7 @@ export default function ContactPage() {
           AUREQUIS PARIJAT
         </p>
 
-        <h1 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+        <h1 className="text-3xl font-semibold tracking-tight sm:text-5xl md:text-6xl">
           We&apos;d love to hear from you.
         </h1>
 

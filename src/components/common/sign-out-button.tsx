@@ -5,8 +5,9 @@ import { useRouter } from "next/navigation";
 import { LogOut } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
-export function SignOutButton() {
+export function SignOutButton({ className }: { className?: string }) {
   const router = useRouter();
 
   async function signOut() {
@@ -26,7 +27,10 @@ export function SignOutButton() {
     <Button
       variant="outline"
       onClick={signOut}
-      className="hidden h-10 rounded-lg border-brand-gold/30 px-5 text-brand-gold transition-all duration-300 hover:bg-brand-gold hover:text-black lg:inline-flex"
+      className={cn(
+        "h-10 rounded-lg border-brand-gold/30 px-5 text-brand-gold transition-all duration-300 hover:bg-brand-gold hover:text-black",
+        className,
+      )}
     >
       <LogOut className="mr-2 h-4 w-4" />
       Sign Out

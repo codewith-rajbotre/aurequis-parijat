@@ -6,7 +6,7 @@ interface BrandSectionProps {
 export default function BrandSection({ section, theme }: BrandSectionProps) {
   return (
     <section
-      className="py-28"
+      className="py-16 md:py-28"
       style={{
         backgroundColor: theme.background_color,
       }}
@@ -25,7 +25,7 @@ export default function BrandSection({ section, theme }: BrandSectionProps) {
 
         {section.title && (
           <h2
-            className="mt-5 text-5xl font-light"
+            className="mt-5 text-4xl font-light md:text-5xl"
             style={{
               color: theme.text_primary,
             }}

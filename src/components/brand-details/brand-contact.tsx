@@ -15,7 +15,7 @@ export default function BrandContact({
   return (
     <section
       id="contact"
-      className="py-32"
+      className="py-20 md:py-32"
       style={{
         backgroundColor: theme.background_color,
       }}
@@ -31,7 +31,7 @@ export default function BrandContact({
         </p>
 
         <h2
-          className="mt-6 text-5xl font-light md:text-6xl"
+          className="mt-6 text-4xl font-light sm:text-5xl md:text-6xl"
           style={{
             color: theme.text_primary,
           }}

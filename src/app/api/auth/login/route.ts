@@ -20,7 +20,19 @@ export async function POST(request: Request) {
             );
         }
 
-        const admin = await fetchAdminByEmail(email);
+        const { data: admin, error } = await fetchAdminByEmail(email);
+
+        if (error) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    message: error.message,
+                },
+                {
+                    status: error.status,
+                }
+            );
+        }
 
         if (!admin) {
             return NextResponse.json(
