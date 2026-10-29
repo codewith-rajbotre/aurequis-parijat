@@ -1,8 +1,10 @@
 import { notFound } from "next/navigation";
 
-import { supabase } from "@/lib/supabase";
+import { fetchBrandBySlug } from "@/db/supabase/brands";
+import { fetchProducts } from "@/db/supabase/products";
 
 import BrandPage from "@/components/brand-details/brand-page";
+import { ApiErrorMessage } from "@/components/errors";
 
 interface BrandPageRouteProps {
   params: Promise<{
@@ -12,27 +14,23 @@ interface BrandPageRouteProps {
 
 export default async function Page({ params }: BrandPageRouteProps) {
   const { slug } = await params;
-  const { data: brand, error } = await supabase
-    .from("brands")
-    .select(
-      `
-      *,
-      brand_themes(*),
-      brand_content(*),
-      brand_statistics(*),
-      brand_heritage(*),
-      brand_collections(*),
-      brand_features(*),
-      brand_gallery(*),
-      brand_sections(*)
-    `,
-    )
-    .eq("slug", slug)
-    .maybeSingle();
+  // Products load separately so a products failure only affects the products section.
+  const [{ data: brand, error }, productsResult] = await Promise.all([
+    fetchBrandBySlug(slug),
+    fetchProducts(slug),
+  ]);
 
-  if (error || !brand) {
+  if (error) {
+    return (
+      <section className="mx-auto max-w-7xl px-6 py-20">
+        <ApiErrorMessage error={error} />
+      </section>
+    );
+  }
+
+  if (!brand) {
     notFound();
   }
 
-  return <BrandPage brand={brand} />;
+  return <BrandPage brand={brand} productsResult={productsResult} />;
 }

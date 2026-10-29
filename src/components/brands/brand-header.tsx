@@ -10,7 +10,8 @@ import { Button } from "@/components/ui/button";
 import CreateBrandDialog from "./create-brand-dialog";
 
 interface BrandHeaderProps {
-  totalBrands: number;
+  // null when the brands could not be loaded; the page shows that error.
+  totalBrands: number | null;
 }
 
 export default function BrandHeader({ totalBrands }: BrandHeaderProps) {
@@ -21,13 +22,15 @@ export default function BrandHeader({ totalBrands }: BrandHeaderProps) {
       <header className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
         <div className="space-y-3">
           <div className="flex items-center gap-3">
-            <h1 className="text-4xl font-bold tracking-tight text-foreground">
+            <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
               Brands
             </h1>
 
-            <Badge variant="secondary" className="rounded-full">
-              {totalBrands}
-            </Badge>
+            {totalBrands !== null && (
+              <Badge variant="secondary" className="rounded-full">
+                {totalBrands}
+              </Badge>
+            )}
           </div>
 
           <p className="max-w-2xl text-muted-foreground">
@@ -39,7 +42,7 @@ export default function BrandHeader({ totalBrands }: BrandHeaderProps) {
         <Button
           size="lg"
           onClick={() => setOpen(true)}
-          className="bg-brand-gold font-semibold text-black hover:opacity-90"
+          className="w-full bg-brand-gold font-semibold text-black hover:opacity-90 sm:w-auto"
         >
           <Plus className="mr-2 h-5 w-5" />
           Add Brand

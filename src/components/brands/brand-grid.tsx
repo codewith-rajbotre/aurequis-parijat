@@ -1,4 +1,4 @@
-import type { Brand } from "@/lib/types/brand";
+import type { Brand } from "@/lib/validations/brand";
 
 import BrandCard from "@/components/brands/brand-card";
 

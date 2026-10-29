@@ -13,12 +13,17 @@ import BrandGallery from "./brand-gallery";
 import BrandSection from "./brand-section";
 import BrandContact from "./brand-contact";
 import BrandFooter from "./brand-footer";
+import BrandProducts from "./brand-products";
+
+import type { Result } from "@/lib/errors";
+import type { Product } from "@/lib/types/product";
 
 interface BrandPageProps {
   brand: any;
+  productsResult: Result<Product[]>;
 }
 
-export default function BrandPage({ brand }: BrandPageProps) {
+export default function BrandPage({ brand, productsResult }: BrandPageProps) {
   const { resolvedTheme } = useTheme();
 
   const currentThemeName = resolvedTheme === "dark" ? "dark" : "light";
@@ -64,7 +69,8 @@ export default function BrandPage({ brand }: BrandPageProps) {
 
   return (
     <main
-      className="min-h-screen"
+      // Anchor targets land below the two sticky headers (site navbar + brand header).
+      className="min-h-screen [&_[id]]:scroll-mt-48 md:[&_[id]]:scroll-mt-44"
       style={{
         backgroundColor: theme.background_color,
         color: theme.text_primary,
@@ -77,6 +83,8 @@ export default function BrandPage({ brand }: BrandPageProps) {
       <BrandStory brand={brand} theme={theme} content={content} />
 
       <BrandStatistics theme={theme} statistics={statistics} />
+
+      <BrandProducts brand={brand} theme={theme} productsResult={productsResult} />
 
       <BrandCollections theme={theme} collections={collections} />
 

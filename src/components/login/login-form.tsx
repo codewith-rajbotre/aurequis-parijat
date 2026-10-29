@@ -5,10 +5,12 @@ import { useRouter } from "next/navigation";
 
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 
+import { ApiErrorMessage } from "@/components/errors";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
+import { type AppError, toAppError } from "@/lib/errors";
 import {
     inputClassName,
     luxuryCardClassName,
@@ -24,6 +26,7 @@ export default function LoginForm() {
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<AppError | null>(null);
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -31,6 +34,7 @@ export default function LoginForm() {
         if (loading) return;
 
         setLoading(true);
+        setError(null);
 
         try {
             const response = await fetch("/api/auth/login", {
@@ -51,17 +55,20 @@ export default function LoginForm() {
                 return;
             }
 
-            alert(result.message ?? "Login failed.");
-        } catch (error) {
-            console.error(error);
-            alert("Something went wrong. Please try again.");
+            setError({
+                status: response.status,
+                message: result.message ?? "Login failed.",
+            });
+        } catch (caught) {
+            console.error(caught);
+            setError(toAppError(caught, undefined, "Something went wrong. Please try again."));
         } finally {
             setLoading(false);
         }
     }
 
     return (
-        <Card className={`${luxuryCardClassName} max-w-107.5 p-10`}>
+        <Card className={`${luxuryCardClassName} max-w-107.5 p-6 sm:p-10`}>
             <div className="space-y-3 text-center">
                 <h1 className={`${sectionTitleClassName} text-4xl`}>
                     AUREQUIS PARIJAT
@@ -74,7 +81,7 @@ export default function LoginForm() {
 
             <form
                 onSubmit={handleSubmit}
-                className="mt-10 space-y-6"
+                className="mt-8 space-y-6 sm:mt-10"
             >
                 <div className="space-y-2">
                     <label
@@ -140,6 +147,8 @@ export default function LoginForm() {
                         </button>
                     </div>
                 </div>
+
+                {error && <ApiErrorMessage error={error} />}
 
                 <Button
                     type="submit"

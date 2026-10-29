@@ -13,13 +13,13 @@ export default function BrandStatistics({
 
   return (
     <section
-      className="border-y py-20"
+      className="border-y py-14 md:py-20"
       style={{
         backgroundColor: theme.background_color,
         borderColor: theme.divider_color,
       }}
     >
-      <div className="mx-auto grid max-w-7xl gap-10 px-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:grid-cols-2 sm:px-6 md:gap-10 lg:grid-cols-4">
         {statistics.map((stat) => (
           <div key={stat.id}>
             <p

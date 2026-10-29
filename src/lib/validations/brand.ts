@@ -79,8 +79,6 @@ export const BrandSchema = z.object({
     updatedAt: z.string().optional(),
 });
 
-export const BrandsSchema = z.array(BrandSchema);
-
 export type Brand = z.infer<typeof BrandSchema>;
 
 export const CreateBrandSchema = BrandSchema.omit({

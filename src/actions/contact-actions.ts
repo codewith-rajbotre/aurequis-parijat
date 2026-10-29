@@ -2,7 +2,7 @@
 "use server";
 
 import { createWebsiteVisitor } from "@/db/supabase/website_visitores";
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
 import { contactSchema } from "@/lib/validations/contacts";
 
 
@@ -27,7 +27,7 @@ export async function submitContactEnquiry(
 
 
         const result = await createWebsiteVisitor(
-            supabase,
+            getSupabase(),
             validation.data,
         );
 

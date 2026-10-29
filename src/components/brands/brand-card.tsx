@@ -1,20 +1,20 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import {
   Globe,
+  Package,
   Pencil,
   Star,
   Trash2,
-  Building2,
   MoreVertical,
 } from "lucide-react";
 
-import type { Brand } from "@/lib/types/brand";
+import type { Brand } from "@/lib/validations/brand";
 
+import { LinkButton } from "@/components/common/link-button";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
@@ -37,7 +37,7 @@ export default function BrandCard({ brand }: BrandCardProps) {
       onClick={() => router.push(`/brands/${brand.slug}`)}
       className="group cursor-pointer overflow-hidden rounded-2xl border border-border bg-card transition-all duration-500 hover:-translate-y-2 hover:border-[#D4AF37] hover:shadow-2xl"
     >
-      <CardContent className="space-y-6 p-8">
+      <CardContent className="space-y-6 p-5 sm:p-8">
         <div className="flex items-start justify-between">
           <div>
             <Badge
@@ -47,7 +47,7 @@ export default function BrandCard({ brand }: BrandCardProps) {
               {brand.status}
             </Badge>
 
-            <h2 className="mt-6 text-3xl font-light tracking-wide transition-colors group-hover:text-[#D4AF37]">
+            <h2 className="mt-6 text-2xl font-light tracking-wide wrap-break-word transition-colors group-hover:text-[#D4AF37] sm:text-3xl">
               {brand.name}
             </h2>
 
@@ -131,7 +131,16 @@ export default function BrandCard({ brand }: BrandCardProps) {
         )}
       </CardContent>
 
-      <CardFooter className="grid grid-cols-2 gap-4 border-t border-border p-6">
+      <CardFooter className="grid grid-cols-2 gap-3 border-t border-border p-4 sm:gap-4 sm:p-6">
+        <LinkButton
+          href={`/products?brand=${encodeURIComponent(brand.slug)}`}
+          onClick={(e) => e.stopPropagation()}
+          className="col-span-2 bg-brand-gold text-black hover:opacity-90"
+        >
+          <Package className="mr-2 h-4 w-4" />
+          Manage Products
+        </LinkButton>
+
         <Button
           variant="outline"
           onClick={(e) => {

@@ -10,12 +10,12 @@ interface EmptyBrandStateProps {
 export default function EmptyBrandState({ onAddBrand }: EmptyBrandStateProps) {
   return (
     <Card className="border-border bg-card shadow-sm">
-      <CardContent className="flex min-h-105 flex-col items-center justify-center px-6 py-16 text-center">
+      <CardContent className="flex flex-col items-center justify-center px-5 py-12 text-center sm:min-h-105 sm:px-6 sm:py-16">
         <div className="flex h-20 w-20 items-center justify-center rounded-full bg-brand-gold/10">
           <Sparkles className="h-10 w-10 text-brand-gold" />
         </div>
 
-        <h2 className="mt-8 text-3xl font-bold text-foreground">
+        <h2 className="mt-8 text-2xl font-bold text-foreground sm:text-3xl">
           No Brands Available
         </h2>
 

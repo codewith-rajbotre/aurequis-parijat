@@ -1,4 +1,3 @@
-import Image from "next/image";
 
 interface BrandGalleryProps {
   theme: any;
@@ -12,7 +11,7 @@ export default function BrandGallery({ theme, gallery }: BrandGalleryProps) {
 
   return (
     <section
-      className="py-32"
+      className="py-20 md:py-32"
       style={{
         backgroundColor: theme.surface_color,
       }}
@@ -28,7 +27,7 @@ export default function BrandGallery({ theme, gallery }: BrandGalleryProps) {
         </p>
 
         <h2
-          className="mt-5 text-5xl font-light"
+          className="mt-5 text-4xl font-light md:text-5xl"
           style={{
             color: theme.text_primary,
           }}
@@ -36,7 +35,7 @@ export default function BrandGallery({ theme, gallery }: BrandGalleryProps) {
           The World of {gallery.length > 0 ? "the Brand" : ""}
         </h2>
 
-        <div className="mt-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 md:mt-20 lg:grid-cols-3">
           {gallery.map((item) => (
             <article key={item.id}>
               {/* <div className="relative h-96 overflow-hidden">

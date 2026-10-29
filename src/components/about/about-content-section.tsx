@@ -1,8 +1,6 @@
-import Link from "next/link";
-
 import { Crown, Gem, ShieldCheck, Sparkles, ArrowRight } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
+import { LinkButton } from "@/components/common/link-button";
 import { Card, CardContent } from "@/components/ui/card";
 
 const brandHighlights = [
@@ -34,12 +32,12 @@ const brandHighlights = [
 
 export default function AboutContentSection() {
   return (
-    <section className="bg-background py-24">
+    <section className="bg-background py-16 md:py-24">
       <div className="mx-auto max-w-7xl space-y-20 px-6">
         {/* Heading */}
 
         <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-4xl font-bold text-foreground md:text-5xl">
+          <h2 className="text-3xl font-bold text-foreground sm:text-4xl md:text-5xl">
             Crafted Around the World's Finest Brands
           </h2>
 
@@ -101,15 +99,14 @@ export default function AboutContentSection() {
             timeless excellence.
           </p>
 
-          <Link href="/products">
-            <Button
-              size="lg"
-              className="mt-8 bg-brand-gold px-8 text-black hover:opacity-90"
-            >
-              Explore Collections
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </Link>
+          <LinkButton
+            href="/brands"
+            size="lg"
+            className="mt-8 bg-brand-gold px-8 text-black hover:opacity-90"
+          >
+            Explore Collections
+            <ArrowRight className="ml-2 h-5 w-5" />
+          </LinkButton>
         </div>
       </div>
     </section>

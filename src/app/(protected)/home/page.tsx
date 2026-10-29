@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { HomePage } from "@/components/home/home-page";
+import { fetchAllBrands } from "@/db/supabase/brands";
 
 export default async function Home() {
     const cookieStore = await cookies();
@@ -12,5 +13,7 @@ export default async function Home() {
         redirect("/login");
     }
 
-    return <HomePage />;
+    const brandsResult = await fetchAllBrands();
+
+    return <HomePage brandsResult={brandsResult} />;
 }

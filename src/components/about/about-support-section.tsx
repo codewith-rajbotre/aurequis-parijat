@@ -1,8 +1,6 @@
-import Link from "next/link";
-
 import { ArrowRight, Headphones, Mail, MessageSquare } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
+import { LinkButton } from "@/components/common/link-button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const supportOptions = [
@@ -28,14 +26,14 @@ const supportOptions = [
 
 export default function AboutSupportSection() {
   return (
-    <section className="bg-background py-24">
+    <section className="bg-background py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-6">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-sm font-semibold uppercase tracking-[0.35em] text-brand-gold">
             Support
           </p>
 
-          <h2 className="mt-4 text-4xl font-bold text-foreground md:text-5xl">
+          <h2 className="mt-4 text-3xl font-bold text-foreground sm:text-4xl md:text-5xl">
             We're Here Whenever You Need Us
           </h2>
 
@@ -86,15 +84,14 @@ export default function AboutSupportSection() {
               </p>
             </div>
 
-            <Link href="/products">
-              <Button
-                size="lg"
-                className="bg-brand-gold text-black hover:opacity-90"
-              >
-                Explore Collections
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
+            <LinkButton
+              href="/brands"
+              size="lg"
+              className="bg-brand-gold text-black hover:opacity-90"
+            >
+              Explore Collections
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </LinkButton>
           </CardContent>
         </Card>
       </div>
